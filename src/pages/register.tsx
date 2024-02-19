@@ -22,7 +22,7 @@ const LoginPage: React.FC = () => {
           <p className="text-sm mt-4 text-[#002D74]">
             If you have an account, please login
           </p>
-          <RegisterForm onRegister={handleRegister}/>
+          {/* <RegisterForm onRegister={handleRegister}/> */}
 
           <div className="text-sm flex justify-between items-center mt-3">
             <p>If you don't have an account...</p>
