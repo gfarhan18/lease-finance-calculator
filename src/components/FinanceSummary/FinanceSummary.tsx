@@ -42,29 +42,34 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ formData }) => {
     <div className="bg-yellow-200 rounded-md p-4 shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Finance Summary</h2>
       <div className="grid grid-cols-2 gap-4">
+        {/* left column */}
         <div>
-          <p className="text-lg font-medium">Loan Amount:</p>
-          <p className="text-lg">${loanAmount.toFixed(2)}</p>
+          <div className="mb-2">
+            <p className="text-lg font-medium">Loan Amount:</p>
+            <p className="text-lg">${loanAmount.toFixed(2)}</p>
+          </div>
+          <div className="mb-2">
+            <p className="text-lg font-medium">Cost of Finance:</p>
+            <p className="text-lg">
+              ${isNaN(costOfFinance) ? 0.0 : costOfFinance.toFixed(2)}
+            </p>
+          </div>
+          <div className="mb-2">
+            <p className="text-lg font-medium">Total Paid:</p>
+            <p className="text-lg">
+              ${isNaN(totalPaid) ? 0.0 : totalPaid.toFixed(2)}
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="text-lg font-medium">Interest Rate:</p>
-          <p className="text-lg">{interestRate}%</p>
-        </div>
-        <div>
-          <p className="text-lg font-medium">Monthly Payment:</p>
-          <p className="text-lg">
-            ${isNaN(monthlyPayment) ? "0.00" : monthlyPayment.toFixed(2)}
-          </p>
-        </div>
-        <div>
-          <p className="text-lg font-medium">Total Paid:</p>
-          <p className="text-lg">${isNaN(totalPaid) ? 0.0 : totalPaid.toFixed(2)}</p>
-        </div>
-        <div>
-          <p className="text-lg font-medium">Cost of Finance:</p>
-          <p className="text-lg">
-            ${isNaN(costOfFinance) ? 0.0 : costOfFinance.toFixed(2)}
-          </p>
+        {/* right column */}
+
+        <div className="text-right">
+          <div className="font-bold">
+            <p className="text-lg font-bolder">Monthly Payment:</p>
+            <p className="text-lg">
+              ${isNaN(monthlyPayment) ? "0.00" : monthlyPayment.toFixed(2)}
+            </p>
+          </div>
         </div>
       </div>
     </div>

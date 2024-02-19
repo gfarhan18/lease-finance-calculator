@@ -18,47 +18,18 @@ const LeaseFinanceComparison: React.FC<ComparisonProps> = ({
 
   return (
     <div className="bg-gray-200 rounded-md p-4 shadow-md">
-      <h2 className="text-lg font-semibold mb-4 text-center">
-        Lease vs Finance
-      </h2>
-      <table className="w-full">
-        <thead className="text-lg font-semibold mb-4text-center bg-gray-900 text-white">
-          <th></th>
-          <th className="p-2">Lease</th>
-          <th className="p-2">Finance</th>
-        </thead>
-        <tbody>
-          <tr className="border-b border-gray-300">
-            <td className="bg-yellow-500  p-4 text-left">Monthly Payment</td>
-            <td className="bg-yellow-500  p-4 text-right">
-              ${leaseMonthlyPayment.toFixed(2)}
-            </td>
-            <td className="bg-yellow-500  p-4 text-right">
-              ${financeMonthlyPayment.toFixed(2)}
-            </td>
-          </tr>
-          <tr className="border-b border-gray-300">
-            <td className="bg-yellow-500  p-4 text-left">Total Cost</td>
-            <td className="bg-yellow-500  p-4 text-right">
-              ${leaseTotalCost.toFixed(2)}
-            </td>
-            <td className="bg-yellow-500  p-4 text-right">
-              ${financeTotalCost.toFixed(2)}
-            </td>
-          </tr>
-          <tr className="border-b border-gray-300">
-            <td className="bg-yellow-500  p-4 text-left">
-              Effective Monthly Cost
-            </td>
-            <td className="bg-yellow-500  p-4 text-right">
-              ${effectiveMonthlyCostLease.toFixed(2)}
-            </td>
-            <td className="bg-yellow-500  p-4 text-right">
-              ${effectiveMonthlyCostFinance.toFixed(2)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="text-center  border-b border-gray-300">
+        <h2 className="text-xl text-yellow-500 font-bold mb-2">Lease vs Finance</h2>
+        <p className="text-sm text-gray-600 mb-2 font-bold">Monthly Payment</p>
+      </div>
+      <div className="flex justify-between items-center mt-2">
+        <div className="flex-1 text-center font-bold">
+          <p>
+            ${leaseMonthlyPayment.toFixed(2)} vs $
+            {financeMonthlyPayment.toFixed(2)}{" "}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

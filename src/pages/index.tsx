@@ -14,7 +14,8 @@ export default function Home() {
     moneyFactor: null,
     msrp: null,
     sellingPrice: null,
-    taxRate:null
+    taxRate: null,
+    leaseTerm: null,
   });
   const [FinanceFormData, setFinanceFormData] = useState<FinanceFormData>({
     carPrice: null,
@@ -22,8 +23,8 @@ export default function Home() {
     interestRate: null,
     numberOfMonths: null,
   });
-  console.log(FinanceFormData,"financeFormData");
-  console.log(LeaseFormData,"leaseFormData");
+  console.log(FinanceFormData, "financeFormData");
+  console.log(LeaseFormData, "leaseFormData");
 
   const [selectedTabSecondColumn, setSelectedTabSecondColumn] =
     useState(selectedTab);
@@ -52,12 +53,21 @@ export default function Home() {
   let leaseMonthlyPayment = 0;
   let leaseTotalCost = 0;
 
-  if (LeaseFormData.msrp && LeaseFormData.sellingPrice && LeaseFormData.residual && LeaseFormData.moneyFactor && LeaseFormData.taxRate) {
-    leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / 100);
-    leaseDepreciationCost = (LeaseFormData.sellingPrice - leaseResidualValue) / 36;
-    leaseInterestCost = (LeaseFormData.sellingPrice + leaseResidualValue) * LeaseFormData.moneyFactor;
+  if (
+    LeaseFormData.msrp &&
+    LeaseFormData.sellingPrice &&
+    LeaseFormData.residual &&
+    LeaseFormData.moneyFactor &&
+    LeaseFormData.taxRate && LeaseFormData.leaseTerm
+  ) {
+    leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / (100*100));
+    leaseDepreciationCost =
+      (LeaseFormData.sellingPrice - leaseResidualValue) / LeaseFormData.leaseTerm;
+    leaseInterestCost =
+      (LeaseFormData.sellingPrice + leaseResidualValue) *
+      LeaseFormData.moneyFactor;
     leaseTotalWithoutTax = leaseDepreciationCost + leaseInterestCost;
-    leaseTax = leaseTotalWithoutTax * (LeaseFormData.taxRate || 0);
+    leaseTax = leaseTotalWithoutTax * ((LeaseFormData.taxRate/100) || 0);
     leaseMonthlyPayment = leaseTax + leaseTotalWithoutTax;
     // leaseTotalCost = leaseMonthlyPayment * LeaseFormData.numberOfMonths;
   }
@@ -68,15 +78,23 @@ export default function Home() {
   let financeCostOfFinance = 0;
   let financeTotalCost = 0;
 
-  if (FinanceFormData.carPrice && FinanceFormData.downPayment && FinanceFormData.interestRate && FinanceFormData.numberOfMonths) {
-    const financeLoanAmount = FinanceFormData.carPrice - FinanceFormData.downPayment;
-    const financeMonthlyInterestRate = FinanceFormData.interestRate / (100 * 12); // Convert interest rate to monthly decimal
+  if (
+    FinanceFormData.carPrice &&
+    FinanceFormData.downPayment &&
+    FinanceFormData.interestRate &&
+    FinanceFormData.numberOfMonths
+  ) {
+    const financeLoanAmount =
+      FinanceFormData.carPrice - FinanceFormData.downPayment;
+    const financeMonthlyInterestRate =
+      FinanceFormData.interestRate / (100 * 12); // Convert interest rate to monthly decimal
     const financeTotalMonths = FinanceFormData.numberOfMonths;
 
     financeMonthlyPayment =
       (financeLoanAmount * financeMonthlyInterestRate) /
       (1 - Math.pow(1 + financeMonthlyInterestRate, -financeTotalMonths));
-    financeTotalPaid = financeMonthlyPayment * financeTotalMonths + FinanceFormData.downPayment;
+    financeTotalPaid =
+      financeMonthlyPayment * financeTotalMonths + FinanceFormData.downPayment;
     financeCostOfFinance = financeTotalPaid - FinanceFormData.carPrice;
     financeTotalCost = financeMonthlyPayment * financeTotalMonths;
   }
@@ -91,7 +109,6 @@ export default function Home() {
                 tabs={["LEASE", "FINANCE"]}
                 onSelectTab={handleTabChange}
                 activeTab={selectedTab}
-                
               />
               {selectedTab === 0 && (
                 <LeaseForm
@@ -105,7 +122,6 @@ export default function Home() {
                   onSubmit={handleFormSubmit2}
                   onUpdateFormData={handleFormSubmit2}
                   formData={FinanceFormData}
-
                 />
               )}
               {selectedTab === 2 && (
@@ -113,7 +129,6 @@ export default function Home() {
                   onSubmit={handleFormSubmit1}
                   onUpdateFormData={handleFormSubmit1}
                   formData={LeaseFormData}
-
                 />
               )}
             </div>
@@ -143,6 +158,20 @@ export default function Home() {
                   />
                 </>
               )}
+              <blockquote className="pt-2 text-xs italic">
+                *Disclaimer: This calculator is provided as a bonus tool to
+                assist you in your car purchase. Values displayed are for
+                illustrations only. The values and output payments on this
+                calculator are hypothetical only and should serve as examples.
+                You should enter figures that are appropriate to your individual
+                situation. This calculator does not guarantee the actual results
+                of your intended car payment. Tax, title, and tags, dealer
+                incentives, rebates, and fees vary by state and manufacturer.
+                They are not taken into consideration at this time. This content
+                is intended to provide general information and shouldn't be
+                considered legal, tax, or financial advice. Dealertactics.com
+                and its affiliates are not tax or legal advisers.
+              </blockquote>
             </div>
           </div>
         </div>
