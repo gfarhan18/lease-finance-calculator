@@ -62,21 +62,21 @@ const LeaseForm: React.FC<FormProps> = ({ onSubmit, onUpdateFormData,formData })
           onBlur={handleChange}
         />
       </div>
-      <div className="mb-4 grid grid-cols-2 gap-4">
+      <div className="mb-4">
         <div>
           <Input
             type="number"
-            placeholder="Residual"
+            placeholder="Residual (%)"
             name="residual"
             value={formDataState.residual}
             onChange={handleChange}
             onBlur={handleChange}
           />
         </div>
-        <div>
+        {/* <div>
           <Input
             type="number"
-            placeholder="Residual Percentage"
+            placeholder="Residual "
             name="residualPercentage"
             onBlur={handleChange}
             value={residualPercentage ? residualPercentage.toString() : ''}
@@ -86,7 +86,7 @@ const LeaseForm: React.FC<FormProps> = ({ onSubmit, onUpdateFormData,formData })
               setFormData({ ...formDataState, residual: value * 100 });
             }}
           />
-        </div>
+        </div> */}
       </div>
       <div className="mb-4">
         <Input
@@ -99,18 +99,18 @@ const LeaseForm: React.FC<FormProps> = ({ onSubmit, onUpdateFormData,formData })
         />
       </div>
 
-      <div className="mb-4 grid grid-cols-2 gap-4">
+      <div className="mb-4">
         <div>
           <Input
             type="number"
-            placeholder="Tax Rate"
+            placeholder="Tax Rate (%)"
             name="taxRate"
             value={formDataState.taxRate}
             onChange={handleChange}
             onBlur={handleChange}
           />
         </div>
-        <div>
+        {/* <div>
           <Input
             type="number"
             placeholder="Tax Rate Percentage"
@@ -123,7 +123,7 @@ const LeaseForm: React.FC<FormProps> = ({ onSubmit, onUpdateFormData,formData })
               setFormData({ ...formDataState, taxRate: value * 100 });
             }}
           />
-        </div>
+        </div> */}
       </div>
       <div className="mb-4">
         <Input

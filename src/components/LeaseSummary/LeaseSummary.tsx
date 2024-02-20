@@ -17,7 +17,7 @@ const LeaseSummary: React.FC<LeaseSummaryProps> = ({ formData }) => {
   let monthlyPayment = 0;
   let tax = 0;
   if (msrp && sellingPrice && residual && moneyFactor && taxRate && leaseTerm) {
-    residualValue = msrp * (residual / (100 * 100)); //
+    residualValue = msrp * (residual / (100)); //
 
     // Calculate depreciation cost
     depreciationCost = (sellingPrice - residualValue) / leaseTerm;
@@ -29,7 +29,7 @@ const LeaseSummary: React.FC<LeaseSummaryProps> = ({ formData }) => {
     // Calculate total without tax
     totalWithoutTax = depreciationCost + interestCost;
 
-    tax = totalWithoutTax * (taxRate / 100);
+    tax = totalWithoutTax * (taxRate);
     // Calculate monthly payment
     monthlyPayment = tax + totalWithoutTax;
   }

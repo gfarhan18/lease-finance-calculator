@@ -60,14 +60,14 @@ export default function Home() {
     LeaseFormData.moneyFactor &&
     LeaseFormData.taxRate && LeaseFormData.leaseTerm
   ) {
-    leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / (100*100));
+    leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / (100));
     leaseDepreciationCost =
       (LeaseFormData.sellingPrice - leaseResidualValue) / LeaseFormData.leaseTerm;
     leaseInterestCost =
       (LeaseFormData.sellingPrice + leaseResidualValue) *
       LeaseFormData.moneyFactor;
     leaseTotalWithoutTax = leaseDepreciationCost + leaseInterestCost;
-    leaseTax = leaseTotalWithoutTax * ((LeaseFormData.taxRate/100) || 0);
+    leaseTax = leaseTotalWithoutTax * ((LeaseFormData.taxRate) || 0);
     leaseMonthlyPayment = leaseTax + leaseTotalWithoutTax;
     // leaseTotalCost = leaseMonthlyPayment * LeaseFormData.numberOfMonths;
   }
@@ -151,10 +151,8 @@ export default function Home() {
               {selectedTabSecondColumn === 2 && (
                 <>
                   <LeaseFinanceComparison
-                    leaseMonthlyPayment={leaseMonthlyPayment}
+                    leaseMonthlyPayment={leaseTotalWithoutTax}
                     financeMonthlyPayment={financeMonthlyPayment}
-                    leaseTotalCost={leaseTotalCost}
-                    financeTotalCost={financeTotalCost}
                   />
                 </>
               )}
