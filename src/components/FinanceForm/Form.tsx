@@ -34,7 +34,7 @@ const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData 
       <div className="mb-4">
         <Input
           type="number"
-          placeholder="Car Price"
+          placeholder="Selling Price"
           name="carPrice"
           value={formDataState.carPrice}
           onChange={handleChange}
@@ -67,7 +67,7 @@ const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData 
       <div className="mb-4">
         <Input
           type="number"
-          placeholder="Terms (Month)"
+          placeholder="Term (Months)"
           name="numberOfMonths"
           value={formDataState.numberOfMonths}
           onChange={handleChange}

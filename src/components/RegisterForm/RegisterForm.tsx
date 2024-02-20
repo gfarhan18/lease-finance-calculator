@@ -1,6 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-interface FormValues {
+interface RegisterFormProps {
+  onRegister: (values: FormValues) => void;
+}
+export interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
@@ -12,7 +15,7 @@ const initialValues: FormValues = {
   confirmPassword: "",
 };
 
-const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
   const validate = (values: FormValues) => {
     const errors: Partial<FormValues> = {};
     if (!values.email) {
@@ -34,6 +37,7 @@ const RegisterForm: React.FC = () => {
   };
 
   const onSubmit = (values: FormValues, { setSubmitting }: any) => {
+    onRegister(values); 
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
       setSubmitting(false);

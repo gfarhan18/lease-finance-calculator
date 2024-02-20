@@ -40,16 +40,16 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ formData }) => {
 
   return (
     <div className="bg-yellow-200 rounded-md p-4 shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Finance Summary</h2>
-      <div className="grid grid-cols-2 gap-4">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Finance Summary</h2>
+      <div className="grid grid-cols-5 gap-2">
         {/* left column */}
-        <div>
+        <div className="w-40 col-span-2">
           <div className="mb-2">
             <p className="text-lg font-medium">Loan Amount:</p>
             <p className="text-lg">${loanAmount.toFixed(2)}</p>
           </div>
           <div className="mb-2">
-            <p className="text-lg font-medium">Cost of Finance:</p>
+            <p className="text-lg font-medium">Finance Cost:</p>
             <p className="text-lg">
               ${isNaN(costOfFinance) ? 0.0 : costOfFinance.toFixed(2)}
             </p>
@@ -63,12 +63,10 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ formData }) => {
         </div>
         {/* right column */}
 
-        <div className="text-right">
+        <div className="text-left col-span-3">
           <div className="font-bold">
-            <p className="text-lg font-bolder">Monthly Payment:</p>
-            <p className="text-lg">
-              ${isNaN(monthlyPayment) ? "0.00" : monthlyPayment.toFixed(2)}
-            </p>
+            <p className="text-lg font-bolder">Monthly Base Payment: ${isNaN(monthlyPayment) ? "0.00" : monthlyPayment.toFixed(2)}</p>
+            <small className="text-xs text-gray-500">*Tax not included</small>
           </div>
         </div>
       </div>

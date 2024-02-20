@@ -1,12 +1,13 @@
 // components/LoginPage.tsx
 
-import RegisterForm from "@/components/RegisterForm/RegisterForm";
+import RegisterForm, { FormValues } from "@/components/RegisterForm/RegisterForm";
 import { registerUser } from "@/services/userService";
 import Image from "next/image";
 import React from "react";
 
 const LoginPage: React.FC = () => {
-    const handleRegister = async (email: string, password: string) => {
+    const handleRegister = async (values: FormValues) => {
+      const { email, password } = values;
         try {
           await registerUser(email, password);
           // Redirect user to login page or any other page after successful registration
@@ -22,7 +23,7 @@ const LoginPage: React.FC = () => {
           <p className="text-sm mt-4 text-[#002D74]">
             If you have an account, please login
           </p>
-          {/* <RegisterForm onRegister={handleRegister}/> */}
+          <RegisterForm onRegister={handleRegister}/>
 
           <div className="text-sm flex justify-between items-center mt-3">
             <p>If you don't have an account...</p>

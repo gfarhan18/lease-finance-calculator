@@ -37,7 +37,7 @@ const LeaseSummary: React.FC<LeaseSummaryProps> = ({ formData }) => {
 
   return (
     <div className="bg-yellow-200 rounded-md p-4 shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Lease Summary</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center">Lease Summary</h2>
       <div className="grid grid-cols-2 gap-4">
     {/* left column */}
 
@@ -58,7 +58,7 @@ const LeaseSummary: React.FC<LeaseSummaryProps> = ({ formData }) => {
     {/* right column */}
         <div className="right-col font-bold">
           <div className="card mb-2">
-            <p className="text-lg font-bolder">Total without Tax:</p>
+            <p className="text-lg font-bolder">Base monthly Payment:</p>
             <p className="text-lg">${totalWithoutTax.toFixed(2)}</p>
           </div>
           <div className="card mb-2">
@@ -66,7 +66,7 @@ const LeaseSummary: React.FC<LeaseSummaryProps> = ({ formData }) => {
             <p className="text-lg">${tax.toFixed(2)}</p>
           </div>
           <div className="card mb-2">
-            <p className="text-lg font-bolder">Monthly Payment:</p>
+            <p className="text-lg font-bolder">Total Monthly Payment:</p>
             <p className="text-lg">${monthlyPayment.toFixed(2)}</p>
           </div>
         </div>
