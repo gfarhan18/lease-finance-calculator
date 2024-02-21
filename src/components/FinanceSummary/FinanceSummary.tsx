@@ -65,7 +65,7 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ formData }) => {
 
         <div className="text-left col-span-3">
           <div className="font-bold">
-            <p className="text-lg font-bolder">Monthly Base Payment: ${isNaN(monthlyPayment) ? "0.00" : monthlyPayment.toFixed(2)}</p>
+            <p className="text-lg font-bolder"> Base Monthly Payment: ${isNaN(monthlyPayment) ? "0.00" : monthlyPayment.toFixed(2)}</p>
             <small className="text-xs text-gray-500">*Tax not included</small>
           </div>
         </div>
