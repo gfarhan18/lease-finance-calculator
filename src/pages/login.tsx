@@ -2,6 +2,7 @@
 
 import LoginForm from "@/components/LoginForm/LoginForm";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const LoginPage: React.FC = () => {
@@ -17,9 +18,11 @@ const LoginPage: React.FC = () => {
 
           <div className="text-sm flex justify-between items-center mt-3">
             <p>If you don't have an account...</p>
-            <button className="py-2 px-5 ml-3 bg-white border rounded-xl hover:scale-110 duration-300 border-yellow-400">
-              Register
-            </button>
+            <Link href="/register">
+              <button className="py-2 px-5 ml-3 bg-white border rounded-xl hover:scale-110 duration-300 border-yellow-400">
+                Register
+              </button>
+            </Link>
           </div>
         </div>
 

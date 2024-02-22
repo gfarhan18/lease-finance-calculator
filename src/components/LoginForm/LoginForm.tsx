@@ -1,4 +1,6 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface FormValues {
   email: string;
@@ -9,8 +11,11 @@ const initialValues: FormValues = {
   email: "",
   password: "",
 };
-
+interface LoginResponse {
+  token: string;
+}
 const LoginForm: React.FC = () => {
+  const router = useRouter();
   const validate = (values: FormValues) => {
     const errors: Partial<FormValues> = {};
     if (!values.email) {
@@ -26,12 +31,36 @@ const LoginForm: React.FC = () => {
     return errors;
   };
 
-  const onSubmit = (values: FormValues, { setSubmitting }: any) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const onSubmit = async (
+    values: FormValues,
+    { setSubmitting }: any
+  ) => {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (response.ok) {
+        console.log("User logged in successfully");
+        toast.success("User logged in successfully");
+        const data: LoginResponse = await response.json();
+        localStorage.setItem('token', data.token);
+        router.push("/dashboard"); // Redirect to dashboard after successful login
+      } else {
+        console.error("Failed to log in:", await response.text());
+        toast.error("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Internal Server error:", error);
+      toast.error("Internal Server error");
+    } finally {
       setSubmitting(false);
-    }, 400);
+    }
   };
+
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>

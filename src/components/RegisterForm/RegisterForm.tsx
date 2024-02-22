@@ -1,21 +1,24 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import React from "react";
+import { toast } from "react-toastify";
 
-interface RegisterFormProps {
-  onRegister: (values: FormValues) => void;
-}
 export interface FormValues {
   email: string;
   password: string;
-  confirmPassword: string;
+  first_name: string;
+  last_name: string;
+  status: string;
 }
 
 const initialValues: FormValues = {
   email: "",
   password: "",
-  confirmPassword: "",
+  first_name: "",
+  last_name: "",
+  status: "block", // Assuming 'block' is the default status
 };
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
+const RegisterForm: React.FC = () => {
   const validate = (values: FormValues) => {
     const errors: Partial<FormValues> = {};
     if (!values.email) {
@@ -28,26 +31,70 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
     } else if (values.password.length < 6) {
       errors.password = "Password must be at least 6 characters long";
     }
-    if (!values.confirmPassword) {
-      errors.confirmPassword = "Confirm Password is required";
-    } else if (values.confirmPassword !== values.password) {
-      errors.confirmPassword = "Passwords do not match";
-    }
     return errors;
   };
 
-  const onSubmit = (values: FormValues, { setSubmitting }: any) => {
-    onRegister(values); 
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const onSubmit = async (values: FormValues, { setSubmitting }: any) => {
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (response.ok) {
+        console.log("User registered successfully");
+        toast.success("User registered successfully");
+      } else {
+        console.error("Failed to register user:", await response.text());
+        toast.warning("Internal Server error");
+      }
+    } catch (error) {
+      console.error("Internal Server error:", error);
+      toast.warning("Internal Server error");
+    } finally {
       setSubmitting(false);
-    }, 400);
+    }
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validate={validate}
+    >
       <Form className="mt-6">
-        <div>
+      <div className="mt-2">
+          <label htmlFor="first_name" className="block text-gray-700">
+            First Name
+          </label>
+          <Field
+            type="text"
+            id="first_name"
+            name="first_name"
+            placeholder="Enter First Name"
+            className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-yellow-500 focus:bg-white focus:outline-none"
+            required
+          />
+          <ErrorMessage name="first_name" component="div" className="text-red-500" />
+        </div>
+
+        <div className="mt-2">
+          <label htmlFor="last_name" className="block text-gray-700">
+            Last Name
+          </label>
+          <Field
+            type="text"
+            id="last_name"
+            name="last_name"
+            placeholder="Enter Last Name"
+            className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-yellow-500 focus:bg-white focus:outline-none"
+            required
+          />
+          <ErrorMessage name="last_name" component="div" className="text-red-500" />
+        </div>
+        <div className="mt-2">
           <label htmlFor="email" className="block text-gray-700">
             Email Address
           </label>
@@ -64,7 +111,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
           <ErrorMessage name="email" component="div" className="text-red-500" />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-2">
           <label htmlFor="password" className="block text-gray-700">
             Password
           </label>
@@ -77,28 +124,17 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
             minLength={6}
             required
           />
-          <ErrorMessage name="password" component="div" className="text-red-500" />
-        </div>
-
-        <div className="mt-4">
-          <label htmlFor="confirmPassword" className="block text-gray-700">
-            Confirm Password
-          </label>
-          <Field
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-yellow-500 focus:bg-white focus:outline-none"
-            minLength={6}
-            required
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="text-red-500"
           />
-          <ErrorMessage name="confirmPassword" component="div" className="text-red-500" />
         </div>
+        
 
         <button
           type="submit"
-          className="w-full block bg-yellow-500 hover:bg-yellow-400 focus:bg-yellow-400 text-white font-semibold rounded-lg px-4 py-3 mt-6"
+          className="w-full block bg-yellow-500 hover:bg-yellow-700 focus:bg-yellow-400 text-white font-semibold rounded-lg px-4 py-3 mt-6"
         >
           Register
         </button>
