@@ -1,14 +1,31 @@
-// pages/index.tsx
-import { useEffect, useState } from "react";
-import LeaseForm, { LeaseFormData } from "@/components/LeaseForm/Form";
+"use client";
 import Tab from "@/components//Tab/Tab";
+import Disclaimer from "@/components/Disclaimer/Disclaimer";
 import FinanceForm, { FinanceFormData } from "@/components/FinanceForm/Form";
-import LeaseSummary from "@/components/LeaseSummary/LeaseSummary";
 import FinanceSummary from "@/components/FinanceSummary/FinanceSummary";
 import LeaseFinanceComparison from "@/components/LeaseFinanceComparison/LeaseFinanceComparison";
+import LeaseForm, { LeaseFormData } from "@/components/LeaseForm/Form";
+import LeaseSummary from "@/components/LeaseSummary/LeaseSummary";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+interface UserData {
+  user: {
+    unsafeMetadata: {
+      status: string;
+      // Add other properties if needed
+    }
+    // Add other properties if needed
+  }
+  // Add other properties if needed
+}
 
 export default function Home() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const router = useRouter();
+  const [user,setUser] = useState<UserData | null>(null)
+  const [userStatus, setUserStatus] = useState<string>('');
   const [LeaseFormData, setLeaseFormData] = useState<LeaseFormData>({
     residual: null,
     moneyFactor: null,
@@ -23,9 +40,31 @@ export default function Home() {
     interestRate: null,
     numberOfMonths: null,
   });
-  console.log(FinanceFormData, "financeFormData");
-  console.log(LeaseFormData, "leaseFormData");
 
+  useEffect(() => {
+    const checkUser = async () => {
+        try {
+          //for setting the unsafe metadata
+          const addMetaData = await fetch(`/api/private`);
+
+          //for checking if user exists or not
+          const clerkresponse = await fetch(`/api/auth`);
+
+          if(clerkresponse.ok) {
+            setUser(await clerkresponse.json());
+          }
+          setUserStatus(user?.user?.unsafeMetadata.status ?? 'block');  
+        } catch (error) {
+          console.error("Error decoding token or fetching user:", error);
+          router.push("/login");
+        }
+      // }
+    };
+
+    checkUser();
+  }, [userStatus]);
+
+  console.log(user, "user details", user?.user?.unsafeMetadata.status , "" , userStatus)
   const [selectedTabSecondColumn, setSelectedTabSecondColumn] =
     useState(selectedTab);
 
@@ -58,16 +97,18 @@ export default function Home() {
     LeaseFormData.sellingPrice &&
     LeaseFormData.residual &&
     LeaseFormData.moneyFactor &&
-    LeaseFormData.taxRate && LeaseFormData.leaseTerm
+    LeaseFormData.taxRate &&
+    LeaseFormData.leaseTerm
   ) {
-    leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / (100));
+    leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / 100);
     leaseDepreciationCost =
-      (LeaseFormData.sellingPrice - leaseResidualValue) / LeaseFormData.leaseTerm;
+      (LeaseFormData.sellingPrice - leaseResidualValue) /
+      LeaseFormData.leaseTerm;
     leaseInterestCost =
       (LeaseFormData.sellingPrice + leaseResidualValue) *
       LeaseFormData.moneyFactor;
     leaseTotalWithoutTax = leaseDepreciationCost + leaseInterestCost;
-    leaseTax = leaseTotalWithoutTax * ((LeaseFormData.taxRate) || 0);
+    leaseTax = leaseTotalWithoutTax * (LeaseFormData.taxRate || 0);
     leaseMonthlyPayment = leaseTax + leaseTotalWithoutTax;
     // leaseTotalCost = leaseMonthlyPayment * LeaseFormData.numberOfMonths;
   }
@@ -101,79 +142,96 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <div className="max-w-sm ml-auto bg-yellow-200 shadow-xl rounded-lg overflow-hidden">
-            <div className="p-4">
-              <Tab
-                tabs={["LEASE", "FINANCE"]}
-                onSelectTab={handleTabChange}
-                activeTab={selectedTab}
-              />
-              {selectedTab === 0 && (
-                <LeaseForm
-                  onSubmit={handleFormSubmit1}
-                  onUpdateFormData={handleFormSubmit1}
-                  formData={LeaseFormData}
-                />
-              )}
-              {selectedTab === 1 && (
-                <FinanceForm
-                  onSubmit={handleFormSubmit2}
-                  onUpdateFormData={handleFormSubmit2}
-                  formData={FinanceFormData}
-                />
-              )}
-              {selectedTab === 2 && (
-                <LeaseForm
-                  onSubmit={handleFormSubmit1}
-                  onUpdateFormData={handleFormSubmit1}
-                  formData={LeaseFormData}
-                />
-              )}
-            </div>
-          </div>
+      {!userStatus && (
+        <div className="text-center">
+          <p className="text-4xl text-yellow-500 mb-4">
+            In order to see the calculator, please login.
+          </p>
+          <Link
+            href="/sign-in"
+            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded ml-2"
+          >
+            Go to Login
+          </Link>
         </div>
-        <div>
-          <div className="max-w-lg mx-right-auto bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="p-4">
-              <Tab
-                tabs={["LEASE", "FINANCE", "LEASE vs FINANCE"]}
-                onSelectTab={handleTabChange}
-                activeTab={selectedTabSecondColumn}
-              />
-              {selectedTabSecondColumn === 0 && (
-                <LeaseSummary formData={LeaseFormData} />
-              )}
-              {selectedTabSecondColumn === 1 && (
-                <FinanceSummary formData={FinanceFormData} />
-              )}
-              {selectedTabSecondColumn === 2 && (
-                <>
-                  <LeaseFinanceComparison
-                    leaseMonthlyPayment={leaseTotalWithoutTax}
-                    financeMonthlyPayment={financeMonthlyPayment}
+      )}
+      {userStatus === "active" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <div className="max-w-sm ml-auto bg-yellow-200 shadow-xl rounded-lg overflow-hidden">
+              <div className="p-4">
+                <Tab
+                  tabs={["LEASE", "FINANCE"]}
+                  onSelectTab={handleTabChange}
+                  activeTab={selectedTab}
+                />
+                {selectedTab === 0 && (
+                  <LeaseForm
+                    onSubmit={handleFormSubmit1}
+                    onUpdateFormData={handleFormSubmit1}
+                    formData={LeaseFormData}
                   />
-                </>
-              )}
-              <blockquote className="pt-2 text-xs italic">
-                *Disclaimer: This calculator is provided as a bonus tool to
-                assist you in your car purchase. Values displayed are for
-                illustrations only. The values and output payments on this
-                calculator are hypothetical only and should serve as examples.
-                You should enter figures that are appropriate to your individual
-                situation. This calculator does not guarantee the actual results
-                of your intended car payment. Tax, title, and tags, dealer
-                incentives, rebates, and fees vary by state and manufacturer.
-                They are not taken into consideration at this time. This content
-                is intended to provide general information and shouldn't be
-                considered legal, tax, or financial advice. Dealertactics.com
-                and its affiliates are not tax or legal advisers.
-              </blockquote>
+                )}
+                {selectedTab === 1 && (
+                  <FinanceForm
+                    onSubmit={handleFormSubmit2}
+                    onUpdateFormData={handleFormSubmit2}
+                    formData={FinanceFormData}
+                  />
+                )}
+                {selectedTab === 2 && (
+                  <LeaseForm
+                    onSubmit={handleFormSubmit1}
+                    onUpdateFormData={handleFormSubmit1}
+                    formData={LeaseFormData}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="max-w-lg mx-right-auto bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="p-4">
+                <Tab
+                  tabs={["LEASE", "FINANCE", "LEASE vs FINANCE"]}
+                  onSelectTab={handleTabChange}
+                  activeTab={selectedTabSecondColumn}
+                />
+                {selectedTabSecondColumn === 0 && (
+                  <LeaseSummary formData={LeaseFormData} />
+                )}
+                {selectedTabSecondColumn === 1 && (
+                  <FinanceSummary formData={FinanceFormData} />
+                )}
+                {selectedTabSecondColumn === 2 && (
+                  <>
+                    <LeaseFinanceComparison
+                      leaseMonthlyPayment={leaseTotalWithoutTax}
+                      financeMonthlyPayment={financeMonthlyPayment}
+                    />
+                  </>
+                )}
+                <Disclaimer />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="text-center">
+          <p className="text-4xl text-yellow-500 mb-4">
+            Access is currently unavailable, please contact{" "}
+            <a
+              href="https://www.dealertactics.com"
+              target="_blank"
+              className="underline"
+            >
+              DealerTactics
+            </a>{" "}
+            for further assistance.
+
+          </p>
+        </div>
+      )}
     </div>
   );
 }

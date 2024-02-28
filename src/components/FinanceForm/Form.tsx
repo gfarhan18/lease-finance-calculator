@@ -1,6 +1,6 @@
 // components/Form.tsx
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import Input from '../Input/Input';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import Input from "../Input/Input";
 
 interface FormProps {
   onSubmit: (formData: FinanceFormData) => void;
@@ -15,13 +15,16 @@ export interface FinanceFormData {
   numberOfMonths: number | null;
 }
 
-const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData }) => {
+const FinanceForm: React.FC<FormProps> = ({
+  onSubmit,
+  onUpdateFormData,
+  formData,
+}) => {
   const [formDataState, setFormDataState] = useState<FinanceFormData>(formData);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormDataState({ ...formDataState, [name]: parseFloat(value) });
     onUpdateFormData({ ...formDataState, [name]: parseFloat(value) });
-
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -36,7 +39,7 @@ const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData 
           type="number"
           placeholder="Selling Price"
           name="carPrice"
-          value={formDataState.carPrice}
+          value={formDataState.carPrice || ""}
           onChange={handleChange}
           onBlur={handleChange}
         />
@@ -46,10 +49,9 @@ const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData 
           type="number"
           placeholder="Down payment"
           name="downPayment"
-          value={formDataState.downPayment}
+          value={formDataState.downPayment || ""}
           onChange={handleChange}
           onBlur={handleChange}
-
         />
       </div>
       <div className="mb-4">
@@ -57,11 +59,10 @@ const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData 
           type="number"
           placeholder="Interest Rate (%)"
           name="interestRate"
-          value={formDataState.interestRate}
+          value={formDataState.interestRate || ""}
           onChange={handleChange}
           onBlur={handleChange}
-          tooltip='Please enter Interest Rate in %'
-
+          tooltip="Please enter Interest Rate in %"
         />
       </div>
       <div className="mb-4">
@@ -69,10 +70,9 @@ const FinanceForm: React.FC<FormProps> = ({ onSubmit,onUpdateFormData, formData 
           type="number"
           placeholder="Term (Months)"
           name="numberOfMonths"
-          value={formDataState.numberOfMonths}
+          value={formDataState.numberOfMonths || ""}
           onChange={handleChange}
           onBlur={handleChange}
-
         />
       </div>
       {/* <button type="submit" 

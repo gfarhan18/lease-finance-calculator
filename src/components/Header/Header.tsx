@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 
 const Header: React.FC = () => {
@@ -8,6 +9,10 @@ const Header: React.FC = () => {
           <h1 className=" w-full text-2xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-gray-300 p-2 font-bold text-center">
             Bonus Calculator
           </h1>
+          <UserButton 
+            afterSignOutUrl={'/sign-in'}
+          />
+
       </div>
     </div>
   );

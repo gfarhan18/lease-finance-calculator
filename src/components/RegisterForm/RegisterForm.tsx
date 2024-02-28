@@ -1,4 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useRouter } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -19,6 +20,8 @@ const initialValues: FormValues = {
 };
 
 const RegisterForm: React.FC = () => {
+  const router = useRouter();
+
   const validate = (values: FormValues) => {
     const errors: Partial<FormValues> = {};
     if (!values.email) {
@@ -44,8 +47,8 @@ const RegisterForm: React.FC = () => {
         body: JSON.stringify(values),
       });
       if (response.ok) {
-        console.log("User registered successfully");
         toast.success("User registered successfully");
+        router.push('/');
       } else {
         console.error("Failed to register user:", await response.text());
         toast.warning("Internal Server error");

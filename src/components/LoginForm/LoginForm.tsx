@@ -44,11 +44,10 @@ const LoginForm: React.FC = () => {
         body: JSON.stringify(values),
       });
       if (response.ok) {
-        console.log("User logged in successfully");
         toast.success("User logged in successfully");
         const data: LoginResponse = await response.json();
         localStorage.setItem('token', data.token);
-        router.push("/dashboard"); // Redirect to dashboard after successful login
+        router.push("/"); // Redirect to dashboard after successful login
       } else {
         console.error("Failed to log in:", await response.text());
         toast.error("Invalid email or password");
