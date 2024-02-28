@@ -19,7 +19,7 @@ const Input: React.FC<InputProps> = ({ type, placeholder,name, value, onChange, 
       <input
         type={type}
         placeholder={placeholder}
-        value={value}
+        value={value  || ''}
         name={name}
         onChange={onChange}
         onBlur={onBlur}
