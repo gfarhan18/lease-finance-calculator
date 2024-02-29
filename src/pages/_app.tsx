@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   else {
     return (
-      <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+      <ClerkProvider publishableKey='pk_test_aW5zcGlyZWQtYmF0LTkxLmNsZXJrLmFjY291bnRzLmRldiQ'>
         <ToastProvider>
           <Layout>
             <Component {...pageProps} />
