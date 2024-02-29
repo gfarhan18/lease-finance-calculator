@@ -22,7 +22,6 @@ interface UserData {
 }
 
 export default function Home() {
-  console.log("env", process.env.CLERK_SECRET_KEY)
   const [selectedTab, setSelectedTab] = useState(0);
   const router = useRouter();
   const [user,setUser] = useState<UserData | null>(null)
