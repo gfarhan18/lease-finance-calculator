@@ -22,6 +22,7 @@ interface UserData {
 }
 
 export default function Home() {
+  console.log("env", process.env)
   const [selectedTab, setSelectedTab] = useState(0);
   const router = useRouter();
   const [user,setUser] = useState<UserData | null>(null)
