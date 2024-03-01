@@ -11,6 +11,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+  throw 'Missing Publishable Key'
+}
+if (!process.env.NEXT_PUBLIC_CLERK_SECRET_KEY) {
+  throw 'Missing secret Key'
+}
 interface UserData {
   user: {
     unsafeMetadata: {
