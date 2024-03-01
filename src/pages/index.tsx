@@ -6,6 +6,7 @@ import FinanceSummary from "@/components/FinanceSummary/FinanceSummary";
 import LeaseFinanceComparison from "@/components/LeaseFinanceComparison/LeaseFinanceComparison";
 import LeaseForm, { LeaseFormData } from "@/components/LeaseForm/Form";
 import LeaseSummary from "@/components/LeaseSummary/LeaseSummary";
+import { SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -142,7 +143,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-4">
-      {!userStatus && (
+    <SignedOut>
         <div className="text-center">
           <p className="text-4xl text-yellow-500 mb-4">
             In order to see the calculator, please login.
@@ -154,7 +155,7 @@ export default function Home() {
             Go to Login
           </Link>
         </div>
-      )}
+      </SignedOut>
       {userStatus === "active" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
