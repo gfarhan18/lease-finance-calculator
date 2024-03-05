@@ -10,6 +10,7 @@ import { SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { DotLoader } from "react-spinners";
 
 // if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
 //   throw 'Missing Publishable Key'
@@ -148,7 +149,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 flex justify-center">
     <SignedOut>
         <div className="text-center">
           <p className="text-4xl text-yellow-500 mb-4">
@@ -162,7 +163,7 @@ export default function Home() {
           </Link>
         </div>
       </SignedOut>
-      {userStatus === "active" ? (
+      {userStatus === "active" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="max-w-sm ml-auto bg-yellow-200 shadow-xl rounded-lg overflow-hidden">
@@ -223,7 +224,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      ) : (
+      )}
+      
+      { userStatus ==="block" && (
         <div className="text-center">
           <p className="text-4xl text-yellow-500 mb-4">
             Access is currently unavailable, please contact{" "}
@@ -239,6 +242,8 @@ export default function Home() {
           </p>
         </div>
       )}
+
+      {!userStatus && <DotLoader />}
     </div>
   );
 }
