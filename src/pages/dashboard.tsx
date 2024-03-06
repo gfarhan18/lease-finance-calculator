@@ -1,9 +1,8 @@
-import DashboardLayout from "@/components/DashboardLayout/DashboardLayout";
 import UserTable, { User } from "@/components/UserTable/UserTable";
-import React, { useState, useEffect } from "react";
-import { GetServerSideProps, NextPage } from "next";
+import jwt from 'jsonwebtoken';
+import { NextPage } from "next";
 import { useRouter } from "next/router";
-import jwt from  'jsonwebtoken';
+import { useEffect, useState } from "react";
 const Dashboard: NextPage<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -57,8 +56,6 @@ const Dashboard: NextPage<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  return { props: { isLoggedIn: false } };
-};
+
 
 export default Dashboard;
