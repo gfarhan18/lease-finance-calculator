@@ -48,6 +48,9 @@ export default function Home() {
     interestRate: null,
     numberOfMonths: null,
   });
+  console.log(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, "Finance")
+  console.log(process.env.NEXT_PUBLIC_CLERK_SECRET_KEY, "Finance")
+
 
   useEffect(() => {
     const checkUser = async () => {
