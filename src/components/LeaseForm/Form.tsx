@@ -32,14 +32,27 @@ const LeaseForm: React.FC<FormProps> = ({
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formDataState, [name]: parseFloat(value) });
+    
+    let parsedValue: number | string = value;
+    // If the input name is moneyFactor, preserve leading zeros and allow decimal points
+    // if (name === "moneyFactor") {
+    //   console.log("in money")
+    //   // parsedValue = parseFloat(value).toString(); // Convert to string to preserve leading zeros
+    // } else {
+    //   parsedValue = parseFloat(value);
+    // }
+      // parsedValue = parseFloat(value);
+
+  
+    setFormData({ ...formDataState, [name]: parsedValue });
+    
     if (name === "residual") {
       setResidualPercentage(parseFloat(value) / 100);
     }
     if (name === "taxRate") {
       setTaxRatePercentage(parseFloat(value) / 100);
     }
-    onUpdateFormData({ ...formDataState, [name]: parseFloat(value) });
+    onUpdateFormData({ ...formDataState, [name]: parsedValue });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -103,6 +116,7 @@ const LeaseForm: React.FC<FormProps> = ({
           value={formDataState.moneyFactor || ""}
           onChange={handleChange}
           onBlur={handleChange}
+          step="any"
         />
       </div>
 

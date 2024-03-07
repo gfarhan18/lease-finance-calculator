@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Update user metadata
         await clerkClient.users.updateUserMetadata(userId, {
             unsafeMetadata: {
-                "status": "block"
+                "status": "active"
             }
         });
 

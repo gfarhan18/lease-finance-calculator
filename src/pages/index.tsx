@@ -48,8 +48,6 @@ export default function Home() {
     interestRate: null,
     numberOfMonths: null,
   });
-  console.log(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, "Finance")
-  console.log(process.env.NEXT_PUBLIC_CLERK_SECRET_KEY, "Finance")
 
 
   useEffect(() => {
@@ -75,7 +73,7 @@ export default function Home() {
     checkUser();
   }, [userStatus]);
 
-  console.log(user, "user details", user?.user?.unsafeMetadata.status , "" , userStatus)
+  console.log( "user details", user?.user?.unsafeMetadata.status , "" , userStatus)
   const [selectedTabSecondColumn, setSelectedTabSecondColumn] =
     useState(selectedTab);
 
@@ -111,6 +109,12 @@ export default function Home() {
     LeaseFormData.taxRate &&
     LeaseFormData.leaseTerm
   ) {
+    // Converting string values to numbers
+    Object.entries(LeaseFormData).forEach(([key, value]) => {
+      LeaseFormData[key as keyof typeof LeaseFormData] = Number(value);
+    });
+    
+
     leaseResidualValue = LeaseFormData.msrp * (LeaseFormData.residual / 100);
     leaseDepreciationCost =
       (LeaseFormData.sellingPrice - leaseResidualValue) /
