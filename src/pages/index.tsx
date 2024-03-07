@@ -123,7 +123,7 @@ export default function Home() {
       (LeaseFormData.sellingPrice + leaseResidualValue) *
       LeaseFormData.moneyFactor;
     leaseTotalWithoutTax = leaseDepreciationCost + leaseInterestCost;
-    leaseTax = leaseTotalWithoutTax * (LeaseFormData.taxRate || 0);
+    leaseTax = leaseTotalWithoutTax * ((LeaseFormData.taxRate/100) || 0);
     leaseMonthlyPayment = leaseTax + leaseTotalWithoutTax;
     // leaseTotalCost = leaseMonthlyPayment * LeaseFormData.numberOfMonths;
   }
