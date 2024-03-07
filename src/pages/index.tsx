@@ -6,7 +6,7 @@ import FinanceSummary from "@/components/FinanceSummary/FinanceSummary";
 import LeaseFinanceComparison from "@/components/LeaseFinanceComparison/LeaseFinanceComparison";
 import LeaseForm, { LeaseFormData } from "@/components/LeaseForm/Form";
 import LeaseSummary from "@/components/LeaseSummary/LeaseSummary";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -232,7 +232,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      
+      <SignedIn>
       { userStatus ==="block" && (
         <div className="text-center">
           <p className="text-4xl text-yellow-500 mb-4">
@@ -249,6 +249,7 @@ export default function Home() {
           </p>
         </div>
       )}
+      </SignedIn>
 
       {!userStatus && <DotLoader />}
     </div>
