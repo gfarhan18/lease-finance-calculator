@@ -29,7 +29,7 @@ const LeaseSummary: React.FC<LeaseSummaryProps> = ({ formData }) => {
     // Calculate total without tax
     totalWithoutTax = depreciationCost + interestCost;
 
-    tax = totalWithoutTax * (taxRate);
+    tax = totalWithoutTax * (taxRate/100);
     // Calculate monthly payment
     monthlyPayment = tax + totalWithoutTax;
   }
