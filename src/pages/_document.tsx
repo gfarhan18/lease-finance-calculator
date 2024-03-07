@@ -6,7 +6,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           {/* Add Google Fonts link here */}
-
+          <link rel="icon" href="/Dealer-Tactics-Logo.png" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com"  />
           <link
